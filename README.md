@@ -1,6 +1,6 @@
-# 🛡️ Cybersecurity: Wazuh File Integrity Monitoring (FIM) & Threat Detection
+# Cybersecurity: Wazuh File Integrity Monitoring (FIM) & Threat Detection
 
-## 📖 Table of Contents
+## Table of Contents
 - [Introduction to File Integrity Monitoring (FIM)](#-introduction-to-file-integrity-monitoring-fim)
 - [Project Overview](#-project-overview)
 - [Objective](#-objective)
@@ -17,18 +17,18 @@
 
 ---
 
-## 🛑 Introduction to File Integrity Monitoring (FIM)
+## Introduction to File Integrity Monitoring (FIM)
 **File Integrity Monitoring (FIM)** is an essential defensive capability that validates the integrity of operating system and application files by comparing their cryptographic baselines against real-time states. Within the Wazuh ecosystem, FIM is powered by the **Syscheck** engine.
 
 Syscheck continuously audits monitored directories for file creations, modifications, attribute changes, and deletions. When a file is altered, Syscheck calculates cryptographic checksums (MD5, SHA-1, SHA-256), extracts file metadata (inode, permissions, ownership, size), and records line-by-line content differences (`diff`). In Security Operations Centers (SOCs), FIM serves as a critical indicator for detecting unauthorized rootkits, web shells, ransomware staging, and adversary persistence.
 
-## 📌 Project Overview
+## Project Overview
 This project documents the end-to-end configuration, operational testing, and threat analysis of Wazuh File Integrity Monitoring on an active **Kali Linux** endpoint managed by a centralized **Linux Mint** Wazuh Server. It demonstrates how to transition from scheduled scanning to sub-second, kernel-driven real-time auditing using the Linux `inotify` subsystem, followed by emulating file tampering attacks and analyzing the resulting alerts inside the Wazuh SIEM/XDR dashboard.
 
-## 🎯 Objective
+## Objective
 To configure, tune, and validate a high-fidelity File Integrity Monitoring policy on a Linux endpoint. By enabling real-time file inspection, attribute tracking, and content diff capturing, this project establishes continuous detection capabilities for file tampering and maps observed adversary behavior directly to MITRE ATT&CK techniques.
 
-## 🛠️ System Specifications & Network Topology
+## System Specifications & Network Topology
 
 | Parameter | Central Manager (Server) | Monitored Endpoint (Agent) |
 | :--- | :--- | :--- |
@@ -41,7 +41,7 @@ To configure, tune, and validate a high-fidelity File Integrity Monitoring polic
 
 ---
 
-## 🚀 Deployment & Configuration Methodology
+## Deployment & Configuration Methodology
 
 ### Phase 1: Server-Side Baseline & FIM Verification (Linux Mint)
 
@@ -178,7 +178,7 @@ Drilled down into the detailed JSON document for the file addition alert:
 *   **`syscheck.md5_after`:** Automatically generated baseline cryptographic checksum (`d41d8cd98f00b204e9800998ecf8427e` - standard empty file MD5).
 <br>
 
-![File Created Document Details](images/24-file-created-log.jpg)
+![File Created Document Details](images/24-file-created-log.png)
 
 Refreshed the event viewer after completing the emulation sequence. A total of **6 distinct integrity events** were ingested and categorized:
 *   **`/root/test1.txt`:** Added (`Rule 554`, Level 5).
@@ -248,7 +248,7 @@ A complementary dashboard query view confirms continuous monitoring of active fi
 
 ---
 
-## 🛡️ Security Relevance & SOC Impact
+## Security Relevance & SOC Impact
 File Integrity Monitoring is a core requirement for regulatory frameworks (PCI DSS Requirement 11.5, NIST SP 800-53 SI-7, HIPAA) and a vital line of defense against modern threats:
 *   **Sub-Second Detection of Web Shells:** Using `realtime="yes"` (inotify) eliminates the detection lag of scheduled batch scans, alerting analysts the second a malicious PHP or JSP file lands on a server.
 *   **Forensic Verification:** Capturing pre- and post-modification cryptographic hashes proves whether file integrity was compromised, providing non-repudiation during incident response investigations.
@@ -256,5 +256,5 @@ File Integrity Monitoring is a core requirement for regulatory frameworks (PCI D
 
 ---
 
-## ⚖️ Ethical Guidelines & Disclaimer
+## Ethical Guidelines & Disclaimer
 This lab was conducted within an isolated, private virtualized lab environment for educational, defensive engineering, and security operations training. All file tampering commands were executed strictly on authorized local lab virtual machines to demonstrate detection capabilities.
